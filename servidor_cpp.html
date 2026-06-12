@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servidor CPP ❤️</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#ffd6e7,#fff5f9);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    width:340px;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(255,0,102,.25);
+}
+
+h1{
+    color:#ff4081;
+}
+
+button{
+    background:#ff4081;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    margin:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+input{
+    width:85%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin:10px;
+    text-align:center;
+}
+
+.loader{
+    width:50px;
+    height:50px;
+    border:5px solid #ffd6e7;
+    border-top:5px solid #ff4081;
+    border-radius:50%;
+    margin:auto;
+    animation:girar 1s linear infinite;
+}
+
+@keyframes girar{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1 id="titulo">Servidor CPP ❤️</h1>
+
+    <p id="texto">Conectando...</p>
+
+    <div id="contenido">
+        <div class="loader"></div>
+    </div>
+
+</div>
+
+<script>
+
+let datos = {};
+
+setTimeout(() => {
+    inicio();
+}, 2000);
+
+function inicio() {
+    document.getElementById("titulo").innerText = "Pregunta Importante";
+    document.getElementById("texto").innerText = "¿Quieres salir conmigo?";
+    document.getElementById("contenido").innerHTML = `
+        <button onclick="aceptar()">Sí ❤️</button>
+        <button onclick="rechazar()">No 😢</button>
+    `;
+}
+
+function aceptar() {
+
+    document.getElementById("titulo").innerText = "Procesando...";
+    document.getElementById("texto").innerText = "Conectando con el servidor CPP ❤️";
+    document.getElementById("contenido").innerHTML = `<div class="loader"></div>`;
+
+    setTimeout(() => {
+        pedirDia();
+    }, 1500);
+}
+
+function rechazar() {
+
+    document.getElementById("titulo").innerText = "Error 404";
+    document.getElementById("texto").innerText = "Respuesta inválida 😅";
+    document.getElementById("contenido").innerHTML =
+        `<button onclick="inicio()">Intentar otra vez</button>`;
+}
+
+function pedirDia() {
+
+    document.getElementById("titulo").innerText = "Perfecto ❤️";
+    document.getElementById("texto").innerText = "¿Qué día puedes?";
+
+    document.getElementById("contenido").innerHTML = `
+        <input id="dia" placeholder="Ejemplo: sábado">
+        <br>
+        <button onclick="guardarDia()">Siguiente</button>
+    `;
+}
+
+function guardarDia() {
+
+    datos.dia = document.getElementById("dia").value;
+
+    document.getElementById("texto").innerText = "¿A qué hora?";
+
+    document.getElementById("contenido").innerHTML = `
+        <input id="hora" placeholder="Ejemplo: 7:00 pm">
+        <br>
+        <button onclick="guardarHora()">Siguiente</button>
+    `;
+}
+
+function guardarHora() {
+
+    datos.hora = document.getElementById("hora").value;
+
+    document.getElementById("texto").innerText = "¿Cuál es tu color favorito?";
+
+    document.getElementById("contenido").innerHTML = `
+        <input id="color" placeholder="Ejemplo: azul">
+        <br>
+        <button onclick="guardarColor()">Finalizar</button>
+    `;
+}
+
+function guardarColor() {
+
+    datos.color = document.getElementById("color").value;
+
+    document.getElementById("titulo").innerText = "Cita Confirmada ❤️";
+
+    document.getElementById("texto").innerHTML = `
+        Día: <b>${datos.dia}</b><br>
+        Hora: <b>${datos.hora}</b><br>
+        Color favorito: <b>${datos.color}</b>
+    `;
+
+    document.getElementById("contenido").innerHTML = `
+        <button onclick="enviarWhatsApp()">
+            Enviar respuesta por WhatsApp
+        </button>
+    `;
+}
+
+function enviarWhatsApp() {
+
+    let texto =
+        "❤️ Acepté la cita ❤️\n\n" +
+        "📅 Día: " + datos.dia + "\n" +
+        "⏰ Hora: " + datos.hora + "\n" +
+        "🎨 Color favorito: " + datos.color;
+
+    let url =
+        "https://api.whatsapp.com/send?phone=50242167974&text=" +
+        encodeURIComponent(texto);
+
+    window.open(url, "_blank");
+}
+
+</script>
+
+</body>
+</html>
+
